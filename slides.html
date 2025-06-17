@@ -1,0 +1,163 @@
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Slideshow</title>
+
+  <!-- Glide CSS -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.core.min.css">
+
+  <style>
+
+    body {
+
+      margin: 0;
+
+      padding: 20px;
+
+      background: #f2f2f2;
+
+      font-family: sans-serif;
+
+    }
+
+
+
+    .glide {
+
+      max-width: 900px;
+
+      margin: auto;
+
+    }
+
+
+
+    .glide__slide img {
+
+      width: 100%;
+
+      border-radius: 10px;
+
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+    }
+
+
+
+    .glide__arrows {
+
+      margin-top: 10px;
+
+      text-align: center;
+
+    }
+
+
+
+    .glide__arrow {
+
+      background: #444;
+
+      color: white;
+
+      border: none;
+
+      padding: 10px 20px;
+
+      margin: 0 5px;
+
+      border-radius: 5px;
+
+      cursor: pointer;
+
+      font-size: 16px;
+
+    }
+
+
+
+    .glide__arrow:hover {
+
+      background: #666;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+
+
+  <div class="glide">
+
+    <div class="glide__track" data-glide-el="track">
+
+      <ul class="glide__slides">
+
+        <li class="glide__slide">
+
+          <img src="https://via.placeholder.com/900x450?text=Welcome+to+Church" alt="Slide 1">
+
+        </li>
+
+        <li class="glide__slide">
+
+          <img src="https://via.placeholder.com/900x450?text=Join+Us+This+Sunday" alt="Slide 2">
+
+        </li>
+
+        <li class="glide__slide">
+
+          <img src="https://via.placeholder.com/900x450?text=Everyone+is+Welcome" alt="Slide 3">
+
+        </li>
+
+      </ul>
+
+    </div>
+
+
+
+    <div class="glide__arrows" data-glide-el="controls">
+
+      <button class="glide__arrow glide__arrow--left" data-glide-dir="<">←</button>
+
+      <button class="glide__arrow glide__arrow--right" data-glide-dir=">">→</button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- Glide JS -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/glide.min.js"></script>
+
+  <script>
+
+    new Glide('.glide', {
+
+      type: 'carousel',
+
+      autoplay: 4000,
+
+      animationDuration: 800,
+
+      perView: 1
+
+    }).mount();
+
+  </script>
+
+</body>
+
+</html>
