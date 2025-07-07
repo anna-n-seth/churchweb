@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Carousel</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.core.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.theme.min.css" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background: #000;
+      color: white;
+    }
+
+    .events-section {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    .events-section h2 {
+      font-size: 2.5em;
+      font-weight: 700;
+      margin-bottom: 0.3em;
+    }
+
+    .events-section p {
+      color: #aaa;
+      font-size: 1.1em;
+      margin-bottom: 3em;
+    }
+
+    .glide {
+      max-width: 90vw;
+      margin: 0 auto 60px;
+      overflow: visible;
+    }
+
+    .glide__slide {
+      border-radius: 20px;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      height: 450px;
+      transition: transform 0.5s ease;
+      background-image: var(--desktop-bg);
+    }
+
+    @media (max-width: 768px) {
+      .glide__slide {
+        background-image: var(--mobile-bg);
+      }
+    }
+
+    .glide__slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      background: 
+        radial-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+        rgba(0,0,0,0.2);
+      background-size: 4px 4px;
+      mix-blend-mode: overlay;
+    }
+
+    .glide__slide::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+      z-index: 2;
+    }
+
+    .slide-caption {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      z-index: 3;
+    }
+
+    .slide-caption h2 {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
+      color: white;
+    }
+
+    .slide-caption p {
+      font-size: 16px;
+      margin-top: 4px;
+      color: #ccc;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #ff5c5c;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+ .glide__bullets {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+  transition: transform 0.3s ease;
+}
+   @media (max-width: 768px) {
+  .glide__bullets {
+    transform: translateY(50px); /* Move it down on mobile */
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+}
+
+    .glide__bullet {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      cursor: pointer;
+    }
+
+    .glide__bullet--active {
+      background: white;
+      width: 24px;
+      border-radius: 999px;
+    }
+
+    .glide__slide a,
+    .glide__slide video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .glide__slide video {
+      z-index: 0;
+    }
+
+    .view-events-button {
+      display: inline-block;
+      background-color: #3a3a3a;
+      color: white;
+      padding: 14px 36px;
+      border: none;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1em;
+      cursor: pointer;
+      text-decoration: none;
+      margin: 0 auto 60px;
+      transition: background-color 0.3s ease;
+    }
+
+    .view-events-button:hover {
+      background-color: #5a5a5a;
+    }
+
+    .events-button-wrapper {
+      text-align: center;
+    }
+    
+  </style>
+</head>
+<body>
+
+  <div class="events-section">
+    <h2>Don't Miss What's Coming</h2>
+    <p>Explore upcoming events designed to help you grow, serve, and connect with your church community.</p>
+  </div>
+
+  <div class="glide">
+    <div class="glide__track" data-glide-el="track">
+      <ul class="glide__slides">
+
+        <!-- VIDEO SLIDE -->
+        <a href="https://hbcredmond.churchcenter.com/registrations/events/2666770" target="_blank">
+          <li class="glide__slide">
+            <video autoplay muted loop playsinline>
+              <source src="https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FVBS_i3vaml.mp4?alt=media&token=4286229f-5e54-4d88-bf54-f37dc7d90b7c" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div class="slide-caption">
+              <div class="badge">Register Now</div>
+              <h2>VBS Magnified 2025</h2>
+              <p>Preschool Registration Open</p>
+            </div>
+          </li>
+        </a>
+        
+           <!-- IMAGE SLIDE 2 -->
+      <a href="https://hbcredmond.churchcenter.com/calendar/event/178794511" target="_blank">
+          <li class="glide__slide"
+              style="--desktop-bg: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Slider%2FDesktop%2Fbunco_event_t0xl2o-2.jpg?alt=media&token=386733ab-170e-427b-9b09-6e39f508f789');
+                     --mobile-bg: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Slider%2FMobile%2Fbuncon.jpg?alt=media&token=a26a8df0-29cb-42f7-8e68-cb30e0d697a2');">
+            <div class="slide-caption">
+              <div class="badge">Women's Ministry</div>
+              <h2>Join Us</h2>
+              <p>New or experienced, it’s a fun way to connect. Bring a snack and a friend!</p>
+            </div>
+          </li>
+        </a> 
+
+
+        <!-- IMAGE SLIDE 3 -->
+          <li class="glide__slide"
+              style="--desktop-bg: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Slider%2FDesktop%2FOFFICE_CLOSED_2_ip8bfo.jpg?alt=media&token=601fcdb0-36a0-4f26-a23d-b1d6ef56f75b');
+                     --mobile-bg: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Slider%2FMobile%2FOFFICE_CLOSED_Your_Story_llx8vo.jpg?alt=media&token=735ec45c-0697-42b4-bc26-b470c98c6518');">
+            <div class="slide-caption">
+              <div class="badge">Attention</div>
+              <h2>Offices Are Closed</h2>
+              
+            </div>
+          </li>
+
+        <!-- IMAGE SLIDE 4 -->
+       
+     
+      </ul>
+    </div>
+
+    <div class="glide__bullets" data-glide-el="controls[nav]">
+      <button class="glide__bullet" data-glide-dir="=0"></button>
+      <button class="glide__bullet" data-glide-dir="=1"></button>
+      <button class="glide__bullet" data-glide-dir="=2"></button>
+
+    </div>
+  </div>
+
+  <div class="events-button-wrapper">
+    <a href="https://hbcredmond.churchcenter.com/calendar?view=list" target="_blank" class="view-events-button">View All Events →</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/glide.min.js"></script>
+  <script>
+    new Glide('.glide', {
+      type: 'carousel',
+      startAt: 0,
+      perView: 1.2,
+      focusAt: 'center',
+      gap: 30,
+      autoplay: 5000,
+      hoverpause: true,
+      animationDuration: 800
+    }).mount();
+  </script>
+</body>
+</html>
