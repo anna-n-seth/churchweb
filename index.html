@@ -1,288 +1,653 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Event Carousel</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.core.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/css/glide.theme.min.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HBC — What's New & Upcoming Events</title>
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     html, body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Helvetica Neue', sans-serif;
-      background: #000;
-      color: white;
+      background: #0f0f0f;
+      color: #fff;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    .events-section {
-      text-align: center;
-      padding: 60px 20px 30px;
+    /* ═══════════════════════════════════════════════════
+       SHARED UTILITIES
+    ═══════════════════════════════════════════════════ */
+    .section-wrap {
+      padding: 4rem 1.5rem 5rem;
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
-    .events-section h2 {
-      font-size: 2.5em;
+    .section-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
       font-weight: 700;
-      margin-bottom: 0.3em;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
     }
 
-    .events-section p {
-      color: #aaa;
-      font-size: 1.1em;
-      margin-bottom: 3em;
+    .section-header p {
+      color: #888;
+      font-size: clamp(0.9rem, 1.5vw, 1rem);
     }
 
-    .glide {
-      max-width: 90vw;
-      margin: 0 auto 60px;
-      overflow: visible;
+    .pill-btn {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.65rem 1.5rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.07);
+      transition: background 0.22s ease, transform 0.22s ease;
+      white-space: nowrap;
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+    }
+    .pill-btn:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+
+    @media (max-width: 560px) {
+      .section-header { flex-direction: column; align-items: flex-start; }
     }
 
-    .glide__slide {
-      border-radius: 20px;
+    /* ═══════════════════════════════════════════════════
+       WHAT'S NEW SECTION
+    ═══════════════════════════════════════════════════ */
+    .wn-wrap { background: #0f0f0f; }
+
+    .wn-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 900px) { .wn-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) { .wn-grid { grid-template-columns: repeat(2, 1fr); gap: 0.85rem; } }
+    @media (max-width: 560px) { .wn-grid { grid-template-columns: 1fr; } }
+
+    /* News Card */
+    .wn-card {
+      background: #1a1a1a;
+      border-radius: 14px;
       overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .wn-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.1);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    }
+
+    .wn-card-image {
+      width: 100%;
+      aspect-ratio: 16/9;
       background-size: cover;
       background-position: center;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      flex-shrink: 0;
+      overflow: hidden;
       position: relative;
-      height: 450px;
-      transition: transform 0.5s ease;
-      background-image: var(--desktop-bg);
     }
+    .wn-card:hover .wn-card-image { transform: scale(1.04); }
 
-    @media (max-width: 768px) {
-      .glide__slide {
-        background-image: var(--mobile-bg);
-      }
+    /* Placeholder when no image */
+    .wn-card-image.no-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #222;
     }
-
-    .glide__slide::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 1;
-      background: 
-        radial-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-        rgba(0,0,0,0.2);
-      background-size: 4px 4px;
-      mix-blend-mode: overlay;
-    }
-
-    .glide__slide::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 40%;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-      z-index: 2;
-    }
-
-    .slide-caption {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      z-index: 3;
-    }
-
-    .slide-caption h2 {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 0;
-      color: white;
-    }
-
-    .slide-caption p {
-      font-size: 16px;
-      margin-top: 4px;
-      color: #ccc;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #ff5c5c;
-      color: white;
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 999px;
-      margin-bottom: 8px;
-    }
-
- .glide__bullets {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  gap: 10px;
-  transition: transform 0.3s ease;
-}
-   @media (max-width: 768px) {
-  .glide__bullets {
-    transform: translateY(50px); /* Move it down on mobile */
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-  }
-}
-
-    .glide__bullet {
-      width: 12px;
-      height: 12px;
+    .wn-card-image.no-image::after {
+      content: '';
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      border: none;
-      cursor: pointer;
+      background: rgba(255,255,255,0.06);
     }
 
-    .glide__bullet--active {
-      background: white;
-      width: 24px;
-      border-radius: 999px;
+    .wn-card-body {
+      padding: 1.25rem 1.4rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
     }
 
-    .glide__slide a,
-    .glide__slide video {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .glide__slide video {
-      z-index: 0;
-    }
-
-    .view-events-button {
+    .wn-card-tag {
       display: inline-block;
-      background-color: #3a3a3a;
-      color: white;
-      padding: 14px 36px;
-      border: none;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.7rem;
       border-radius: 999px;
-      font-weight: 600;
-      font-size: 1em;
-      cursor: pointer;
+      margin-bottom: 0.65rem;
+      width: fit-content;
+    }
+    .tag-announcement { background: #c9a84c; color: #000; }
+    .tag-ministry     { background: #00b1c4; color: #fff; }
+    .tag-series       { background: #fff;    color: #000; }
+    .tag-pastor       { background: #56a544; color: #fff; }
+    .tag-update       { background: #374151; color: #fff; }
+
+    .wn-card-title {
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.55rem;
+      color: #fff;
+    }
+
+    .wn-card-desc {
+      font-size: 0.85rem;
+      color: #888;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+      flex: 1;
+    }
+
+    .wn-card-link {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
       text-decoration: none;
-      margin: 0 auto 60px;
-      transition: background-color 0.3s ease;
+      padding: 0.42rem 1.1rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.06);
+      transition: background 0.22s ease, transform 0.22s ease;
+      width: fit-content;
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+    .wn-card-link:hover { background: rgba(255,255,255,0.15); transform: translateY(-1px); }
+
+    /* ═══════════════════════════════════════════════════
+       EVENTS SECTION
+    ═══════════════════════════════════════════════════ */
+    .ev-wrap { background: #111111; }
+
+    .ev-filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
     }
 
-    .view-events-button:hover {
-      background-color: #5a5a5a;
+    .ev-filter {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.42rem 1.1rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      background: transparent;
+      color: #777;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    .ev-filter:hover { border-color: rgba(255,255,255,0.35); color: #ccc; }
+    .ev-filter.active { background: #fff; color: #000; border-color: #fff; }
+
+    .ev-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2.5rem;
     }
 
-    .events-button-wrapper {
+    @media (max-width: 900px) { .ev-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) { .ev-grid { grid-template-columns: repeat(2, 1fr); gap: 0.85rem; } }
+    @media (max-width: 560px) {
+      .ev-grid { grid-template-columns: 1fr; }
+      .ev-filters {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.5rem;
+        scrollbar-width: none;
+      }
+      .ev-filters::-webkit-scrollbar { display: none; }
+      .ev-filter { flex-shrink: 0; }
+    }
+
+    .ev-card {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .ev-card.hidden { display: none; }
+
+    .ev-card-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .ev-card:hover .ev-card-bg { transform: scale(1.06); }
+
+    .ev-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.05) 100%);
+      transition: background 0.35s ease;
+    }
+    .ev-card:hover .ev-card-overlay {
+      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0.1) 100%);
+    }
+
+    .ev-card-body {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.25rem 1.4rem 1.4rem;
+      z-index: 2;
+      transform: translateY(4px);
+      transition: transform 0.35s ease;
+    }
+    .ev-card:hover .ev-card-body { transform: translateY(0); }
+
+    .ev-cat-pill {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      margin-bottom: 0.5rem;
+    }
+    .pill-kids    { background: #00b1c4; color: #fff; }
+    .pill-youth   { background: #fff;    color: #000; }
+    .pill-women   { background: #ed5a24; color: #fff; }
+    .pill-men     { background: #002d72; color: #fff; }
+    .pill-general { background: #c9a84c; color: #000; }
+
+    .ev-card-title {
+      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.01em;
+    }
+
+    .ev-card-date {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.9rem;
+    }
+
+    .ev-register-btn {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.42rem 1.1rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.1);
+      transition: background 0.22s ease, transform 0.22s ease;
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+    .ev-register-btn:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
+
+    .ev-empty {
+      display: none;
       text-align: center;
+      color: #555;
+      font-size: 0.9rem;
+      padding: 3rem 0;
+      grid-column: 1 / -1;
     }
-    
+
+    .ev-footer { text-align: center; }
+    .ev-footer p { font-size: 0.82rem; color: #555; margin-bottom: 1rem; }
   </style>
 </head>
 <body>
 
-  <div class="events-section">
-    <h2>Don't Miss What's Coming</h2>
-    <p>Explore upcoming events designed to help you grow, serve, and connect with your church community.</p>
-  </div>
+  <!-- ═══════════════════════════════════════════════════
+       WHAT'S NEW SECTION
+       background: #0f0f0f (slightly lighter than events)
+  ═══════════════════════════════════════════════════ -->
+  <div class="wn-wrap">
+    <div class="section-wrap">
 
-  <div class="glide">
-    <div class="glide__track" data-glide-el="track">
-      <ul class="glide__slides">
+      <div class="section-header">
+        <div>
+          <h2>What's New</h2>
+          <p>Announcements, updates, and news from HBC.</p>
+        </div>
+      </div>
 
-        <!-- VIDEO SLIDE -->
-        <!-- <a href="https://hbcredmond.churchcenter.com/registrations/events/2666770" target="_blank">-->
-        <!--  <li class="glide__slide">
-            <video autoplay muted loop playsinline>
-              <source src="https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FVBS_i3vaml.mp4?alt=media&token=4286229f-5e54-4d88-bf54-f37dc7d90b7c" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            <div class="slide-caption">
-              <div class="badge">Happening Now</div>
-              <h2>VBS Magnified 2025</h2>
-              <p></p>
-            </div>
-          </li>-->
-     <!--    </a>-->
-    
-    
-          
-<!-- IMAGE SLIDE 1
-        <a href="https://hbcredmond.churchcenter.com/registrations/events/2696240" target="_blank">
-       <li class="glide__slide"
-  style="--desktop-bg: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Slider%2FDesktop%2FBaby%20Dedication.jpg?alt=media&token=270c5b13-4857-41f3-8ee4-e661d6a995d1');
-         --mobile-bg: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Slider%2FMobile%2Fbaby%20dedication%20mobile.jpg?alt=media&token=d8d8c3c4-548b-4a8e-9de8-0624f12b3b10');">
-  <div class="slide-caption">
-    <div class="badge">SIGN UP</div>
-    <h2>Baby Dedication | Sunday, February 1st</h2>
-    <p>This is a special moment for families to commit to raising their children in the Lord. We’d love for you to join us. Please choose a service time: 8:00 AM, 9:30 AM, or 11:00 AM.</p>
-  </div>
-</li>   
-        </a>-->
-        
-<!-- IMAGE SLIDE 2
-        <a href="https://hbcredmond.churchcenter.com/registrations/events/2989623" target="_blank">
-       <li class="glide__slide"
-  style="--desktop-bg: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Slider%2FDesktop%2FMens%20Breakfast.jpg?alt=media&token=9ef068bd-a538-4d3d-9486-a31d95974580');
-         --mobile-bg: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Slider%2FMobile%2Fmens%20breakfast%20mobile.jpg?alt=media&token=fbede944-d8a1-4b7f-8d21-92fb42bf378b');">
-  <div class="slide-caption">
-    <div class="badge">SIGN UP</div>
-    <h2>Men's Breakfast | Saturday, February 7th</h2>
-    <p>Men, join us for breakfast on February 7 at 8:00 AM in the HBC gym. Enjoy good food, fellowship, and encouragement. Bring a friend!</p>
-  </div>
-</li>   
-        </a>-->
+      <!-- ═══════════════════════════════════════════════
+           NEWS CARDS
+           To add: copy any card block, update tag, title,
+           description, image URL, and link.
+           To remove: delete the entire <div class="wn-card"> block.
+           data-expiry="YYYY-MM-DD" — card hides the day after.
+           For permanent items use: data-expiry="2099-12-31"
+      ═══════════════════════════════════════════════ -->
+      <div class="wn-grid" id="wnGrid">
 
-   
-        </a>
-        <!-- IMAGE SLIDE 4-->
-             <a href="https://hbcredmond.churchcenter.com/calendar/event/216600307" target="_blank">
-       <li class="glide__slide"
-  style="--desktop-bg: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Slider%2FDesktop%2FEaster%20Candy%20Donations%20(1).jpg?alt=media&token=1129952f-8736-4c48-aa91-faadf253bc9b');
-         --mobile-bg: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Slider%2FMobile%2Feaster%20candy%20mobile.jpg?alt=media&token=a0194cec-f608-474e-96b6-7d77ab203140');">
-  <div class="slide-caption">
-    <div class="badge">FEAUTURED</div>
-    <h2>Egg Stuffing Party</h2>
-    <p>Help make Easter extra sweet! Donate candy for our Easter Egg Hunt in the bins at any entrance. Join our Egg Stuffing Party on March 21, 9 AM–Noon. Donuts may appear!</p>
-  </div>
-</li> 
-        </a>
-      </ul>
+        <!-- NEWS 1 — Life Groups -->
+        <div class="wn-card" data-expiry="2099-12-31">
+          <div class="wn-card-image" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FWhats%20New%2FSPRING%20GROUPS%20(1).webp?alt=media&token=52d3577a-8983-4f37-a64f-0f3f6d666d88');"></div>
+          <div class="wn-card-body">
+            <span class="wn-card-tag tag-announcement">New</span>
+            <div class="wn-card-title">Life Groups Starting This Spring</div>
+            <div class="wn-card-desc">New small groups are forming at hbc this spring. Find a group that fits your season of life and start growing in community.</div>
+            <a href="https://www.hbcredmond.org/groups" class="wn-card-link" target="_blank">Find a Group →</a>
+          </div>
+        </div>
+
+        <!-- NEWS 2 — New Series -->
+        <div class="wn-card" data-expiry="2026-04-10">
+          <div class="wn-card-image" style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=70');"></div>
+          <div class="wn-card-body">
+            <span class="wn-card-tag tag-series">Series</span>
+            <div class="wn-card-title">Upcoming Sermon Series: Clarity</div>
+            <div class="wn-card-desc">Getting clear on the things that matter most — salvation, scripture, world religions, our problems, our choices, and the journey with Jesus.</div>
+            <a href="https://www.hbcredmond.org/sermons/playlists" class="wn-card-link" target="_blank">Sermon Library →</a>
+          </div>
+        </div>
+
+        <!-- NEWS 3 — Ministry Update -->
+        <div class="wn-card" data-expiry="2026-04-06">
+          <div class="wn-card-image" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FWhats%20New%2FBaptisms.webp?alt=media&token=0ff72073-a7bf-43a9-b448-b73a6e8b1623');"></div>
+          <div class="wn-card-body">
+            <span class="wn-card-tag tag-ministry">Easter</span>
+            <div class="wn-card-title">Easter Sunday Baptism</div>
+            <div class="wn-card-desc">Ready to take the next step in your faith? Be baptized this Easter! Choose the service that works best for you: Saturday – 6:00 PM | Sunday – 8:00, 9:30, & 11:00 AM
+</div>
+            <a href="https://hbcredmond.churchcenter.com/people/forms/896284" class="wn-card-link" target="_blank">I Want to be Baptized →</a>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </div>
 
-    <div class="glide__bullets" data-glide-el="controls[nav]">
-      <button class="glide__bullet" data-glide-dir="=0"></button> 
-   
-   
+  <!-- Section divider -->
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════════════════════════════
+       UPCOMING EVENTS SECTION
+       background: #111111 (slightly different from above)
+  ═══════════════════════════════════════════════════ -->
+  <div class="ev-wrap">
+    <div class="section-wrap">
+
+      <div class="section-header">
+        <div>
+          <h2>Upcoming Events</h2>
+          <p>Something for everyone at HBC — find your next step.</p>
+        </div>
+        <a class="pill-btn"
+           href="https://hbcredmond.churchcenter.com/calendar?view=list"
+           target="_blank">View Full Calendar →</a>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="ev-filters">
+        <button class="ev-filter active" onclick="evFilter('all', this)">All</button>
+        <button class="ev-filter" onclick="evFilter('kids', this)">Kids</button>
+        <button class="ev-filter" onclick="evFilter('youth', this)">Youth</button>
+        <button class="ev-filter" onclick="evFilter('women', this)">Women</button>
+        <button class="ev-filter" onclick="evFilter('men', this)">Men</button>
+        <button class="ev-filter" onclick="evFilter('general', this)">General</button>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           EVENT CARDS
+           data-cat: kids | youth | women | men | general
+           data-expiry: YYYY-MM-DD (last day of event)
+           For recurring events: data-expiry="2099-12-31"
+      ═══════════════════════════════════════════════ -->
+      <div class="ev-grid" id="evGrid">
+
+        <div class="ev-card" data-cat="kids" data-expiry="2025-07-18">
+          <div class="ev-card-bg" style="background-image: url('https://images.unsplash.com/photo-1587652990376-69569dc59f97?w=600&q=70');"></div>
+          <div class="ev-card-overlay"></div>
+          <div class="ev-card-body">
+            <div><span class="ev-cat-pill pill-kids">Kids</span></div>
+            <div class="ev-card-title">Vacation Bible School 2025</div>
+            <div class="ev-card-date">July 14–18 · 9:00 AM – 12:00 PM</div>
+            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/registrations" target="_blank">Register →</a>
+          </div>
+        </div>
+
+        <div class="ev-card" data-cat="general" data-expiry="2025-06-29">
+          <div class="ev-card-bg" style="background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=70'); background-position: top;"></div>
+          <div class="ev-card-overlay"></div>
+          <div class="ev-card-body">
+            <div><span class="ev-cat-pill pill-general">General</span></div>
+            <div class="ev-card-title">Church Picnic & Block Party</div>
+            <div class="ev-card-date">June 29 · 3:00 PM – 7:00 PM</div>
+            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/registrations" target="_blank">Learn More →</a>
+          </div>
+        </div>
+
+        <div class="ev-card" data-cat="youth" data-expiry="2025-08-08">
+          <div class="ev-card-bg" style="background-image: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600&q=70');"></div>
+          <div class="ev-card-overlay"></div>
+          <div class="ev-card-body">
+            <div><span class="ev-cat-pill pill-youth">Youth</span></div>
+            <div class="ev-card-title">Forge Summer Camp</div>
+            <div class="ev-card-date">Aug 4–8 · Camp Harlow, Eugene OR</div>
+            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/registrations" target="_blank">Register →</a>
+          </div>
+        </div>
+
+        <div class="ev-card" data-cat="women" data-expiry="2025-07-27">
+          <div class="ev-card-bg" style="background-image: url('https://images.unsplash.com/photo-1607748862156-7c548e7e98f4?w=600&q=70');"></div>
+          <div class="ev-card-overlay"></div>
+          <div class="ev-card-body">
+            <div><span class="ev-cat-pill pill-women">Women</span></div>
+            <div class="ev-card-title">Women's Summer Retreat</div>
+            <div class="ev-card-date">July 25–27 · Black Butte Ranch, OR</div>
+            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/registrations" target="_blank">Register →</a>
+          </div>
+        </div>
+
+        <div class="ev-card" data-cat="men" data-expiry="2026-03-29">
+          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FGeneral%2FMentor%20Discipleship.jpg?alt=media&token=18a1d80d-cda9-4371-94ed-6a3554896540');"></div>
+          <div class="ev-card-overlay"></div>
+          <div class="ev-card-body">
+            <div><span class="ev-cat-pill pill-men">Men</span></div>
+            <div class="ev-card-title">Mentorship Training</div>
+            <div class="ev-card-date">Saturday, March 28, 9am–12pm</div>
+            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/registrations/events/3477640" target="_blank">Sign Up →</a>
+          </div>
+        </div>
+ <!-- ═══════════════════════════════════════════════ General -> Easter Choir -->
+        <div class="ev-card" data-cat="general" data-expiry="2026-03-30">
+          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FGeneral%2Feaster%20choir.jpg?alt=media&token=a1140cb1-0cce-486d-94c5-f5f913c38dc8"></div>
+          <div class="ev-card-body">
+            <div><span class="ev-cat-pill pill-general">General</span></div>
+            <div class="ev-card-title">Easter Choir</div>
+            <div class="ev-card-date">March 8th - 29th | 2:30pm - 4:00pm | Youth Room </div>
+            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/registrations/events/3489204" target="_blank">Sign Up →</a>
+          </div>
+        </div>
        
+      <!-- ═══════════════════════════════════════════════ General -> Egg Stuffing Party -->  
+        
+        <div class="ev-card" data-cat="general" data-expiry="2026-03-22">
+          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FGeneral%2FEgg%20Stuffing.jpg?alt=media&token=6022219f-6930-4167-9ca5-08b209c8f5ae"></div>
+          <div class="ev-card-body">
+            <div><span class="ev-cat-pill pill-general">General</span></div>
+            <div class="ev-card-title" style="color:#34537a;">Egg Stuffing Party</div>
+            <div class="ev-card-date" style="color:#34537a;">Saturday, March 21, 9am–12pm </div>
+            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/calendar/event/216600307" target="_blank" style="color:#34537a;">More Info →</a>
+          </div>
+        </div>
+        
+          <!-- ═══════════════════════════════════════════════ General -> Good Friday -->  
+        
+        <div class="ev-card" data-cat="general" data-expiry="2026-03-22">
+          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FGeneral%2Fgood%20frid.webp?alt=media&token=95365c2d-a292-4c98-b1e4-5d52c0df5427"></div>
+          <div class="ev-card-body">
+            <div><span class="ev-cat-pill pill-general">General</span></div>
+            <div class="ev-card-title">Good Friday</div>
+            <div class="ev-card-date">Friday, April 3rd, 7pm</div>
+            <a class="ev-register-btn" href="https://www.hbcredmond.org/easter-2026" target="_blank">More Info →</a>
+          </div>
+        </div>
+        
+        <!-- ═══════════════════════════════════════════════ General -> Easter -->  
+        
+        <div class="ev-card" data-cat="general" data-expiry="2026-03-22">
+          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FGeneral%2Feaster%20(4).webp?alt=media&token=dd7c460e-ddd3-4011-a714-9e1c669b7f34"></div>
+          <div class="ev-card-body">
+            <div><span class="ev-cat-pill pill-general">General</span></div>
+            <div class="ev-card-title">Easter</div>
+            <div class="ev-card-date" style="color:white;">Sat 6pm | Sun 8am, 9:30am, and 11am</div>
+            <a class="ev-register-btn" href="https://www.hbcredmond.org/easter-2026" target="_blank">More Info →</a>
+          </div>
+        </div>
 
-      
+        <div class="ev-empty" id="evEmpty">No events in this category right now.</div>
 
-      
- 
-      <!-- <button class="glide__bullet" data-glide-dir="=2"></button> -->
+      </div>
+
+      <!-- Footer -->
+      <div class="ev-footer">
+        <p>Want to see everything happening at HBC?</p>
+        <a class="pill-btn"
+           href="https://hbcredmond.churchcenter.com/calendar?view=list"
+           target="_blank">View Full Church Calendar →</a>
+      </div>
 
     </div>
   </div>
 
-  <div class="events-button-wrapper">
-    <a href="https://hbcredmond.churchcenter.com/calendar?view=list" target="_blank" class="view-events-button">View All Events →</a>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.6.0/dist/glide.min.js"></script>
   <script>
-    new Glide('.glide', {
-      type: 'carousel',
-      startAt: 0,
-      perView: 1.2,
-      focusAt: 'center',
-      gap: 30,
-      autoplay: 5000,
-      hoverpause: true,
-      animationDuration: 800
-    }).mount();
+  (function () {
+
+    /* ── EXPIRY ─────────────────────────────────────────
+       Hides cards past their expiry date (Pacific Time)
+       Applies to both .wn-card and .ev-card elements
+    ──────────────────────────────────────────────────── */
+    function hideExpired() {
+      var now = new Date();
+      document.querySelectorAll('[data-expiry]').forEach(function (card) {
+        var expiry = new Date(card.dataset.expiry + 'T23:59:59-07:00');
+        if (now > expiry) {
+          card.style.display = 'none';
+          card.dataset.expired = 'true';
+        }
+      });
+    }
+
+    /* ── EVENT FILTER ───────────────────────────────────
+       Only filters .ev-card elements, ignores news cards
+    ──────────────────────────────────────────────────── */
+    window.evFilter = function (cat, btn) {
+      document.querySelectorAll('.ev-filter').forEach(function (b) {
+        b.classList.remove('active');
+      });
+      btn.classList.add('active');
+
+      var visible = 0;
+      document.querySelectorAll('.ev-card[data-cat]').forEach(function (card) {
+        if (card.dataset.expired === 'true') return;
+        if (cat === 'all' || card.dataset.cat === cat) {
+          card.style.display = '';
+          card.classList.remove('hidden');
+          visible++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      var empty = document.getElementById('evEmpty');
+      if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
+    };
+
+    /* ── INIT ───────────────────────────────────────────── */
+    hideExpired();
+
+  }());
   </script>
+
 </body>
 </html>
+
+<!--
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  HOW TO ADD A NEWS ITEM (What's New section)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<div class="wn-card" data-expiry="YYYY-MM-DD">
+  <div class="wn-card-image" style="background-image: url('YOUR_IMAGE_URL');"></div>
+  <div class="wn-card-body">
+    <span class="wn-card-tag TAG_CLASS">Label</span>
+    <div class="wn-card-title">Title Here</div>
+    <div class="wn-card-desc">Short description here.</div>
+    <a href="YOUR_LINK" class="wn-card-link" target="_blank">CTA Text →</a>
+  </div>
+</div>
+
+TAG options:
+  tag-announcement  (gold)
+  tag-ministry      (teal)
+  tag-series        (white)
+  tag-pastor        (green)
+  tag-update        (gray)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  HOW TO ADD AN EVENT (Upcoming Events section)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<div class="ev-card" data-cat="CATEGORY" data-expiry="YYYY-MM-DD">
+  <div class="ev-card-bg" style="background-image: url('YOUR_IMAGE_URL');"></div>
+  <div class="ev-card-overlay"></div>
+  <div class="ev-card-body">
+    <div><span class="ev-cat-pill pill-CATEGORY">Label</span></div>
+    <div class="ev-card-title">Event Title</div>
+    <div class="ev-card-date">Date · Time</div>
+    <a class="ev-register-btn" href="CHURCH_CENTER_LINK" target="_blank">Register →</a>
+  </div>
+</div>
+
+CATEGORY: kids | youth | women | men | general
+data-expiry: last day of event (YYYY-MM-DD)
+Recurring/permanent: data-expiry="2099-12-31"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-->
