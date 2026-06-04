@@ -414,175 +414,87 @@
        UPCOMING EVENTS SECTION
        background: #111111 (slightly different from above)
   ═══════════════════════════════════════════════════ -->
-  <div class="ev-wrap">
-    <div class="section-wrap">
+  <!-- ══ UPCOMING EVENTS ══════════════════════════════════════ -->
+<div class="hbc-ev">
+  <div class="hbc-ev__inner">
 
-      <div class="section-header">
-        <div>
-          <h2>Upcoming Events</h2>
-          <p>Something for everyone at HBC — find your next step.</p>
-        </div>
-        <a class="pill-btn"
-           href="https://hbcredmond.churchcenter.com/calendar?view=list"
-           target="_blank">View Full Calendar →</a>
+    <div class="hbc-ev__header">
+      <div>
+        <span class="hbc-ev__eyebrow">What's Happening</span>
+        <h2 class="hbc-ev__title">Upcoming Events</h2>
+        <p class="hbc-ev__sub">Something for everyone at HBC — find your next step.</p>
       </div>
 
-      <!-- Filter Tabs -->
-      <div class="ev-filters">
-        <button class="ev-filter active" onclick="evFilter('all', this)">All</button>
-        <button class="ev-filter" onclick="evFilter('kids', this)">Kids</button>
-        <button class="ev-filter" onclick="evFilter('youth', this)">Youth</button>
-        <button class="ev-filter" onclick="evFilter('women', this)">Women</button>
-        <button class="ev-filter" onclick="evFilter('men', this)">Men</button>
-        <button class="ev-filter" onclick="evFilter('general', this)">General</button>
+      <a class="hbc-ev__btn"
+         href="https://hbcredmond.churchcenter.com/calendar?view=list"
+         target="_blank">
+        View Full Calendar →
+      </a>
+    </div>
+
+    <div class="hbc-ev__filters">
+      <button class="hbc-ev__chip active" onclick="hbcEvFilter('kids', this)">Kids</button>
+      <button class="hbc-ev__chip" onclick="hbcEvFilter('youth', this)">Youth</button>
+      <button class="hbc-ev__chip" onclick="hbcEvFilter('women', this)">Women</button>
+      <button class="hbc-ev__chip" onclick="hbcEvFilter('men', this)">Men</button>
+      <button class="hbc-ev__chip" onclick="hbcEvFilter('general', this)">General</button>
+    </div>
+
+    <div class="hbc-ev__panels">
+
+      <div class="hbc-ev__panel active" data-cat="kids">
+        <div class="hbc-ev__frame-wrap">
+          <iframe loading="lazy"
+            src="https://hbcredmond.churchcenter.com/calendar?embed=true&view=gallery&category=314273"
+            title="Kids Events"></iframe>
+        </div>
       </div>
 
-      <!-- ═══════════════════════════════════════════════
-           EVENT CARDS
-           data-cat: kids | youth | women | men | general
-           data-expiry: YYYY-MM-DD (last day of event)
-           For recurring events: data-expiry="2099-12-31"
-      ═══════════════════════════════════════════════ -->
-      <div class="ev-grid" id="evGrid">
-      <div class="ev-card" data-cat="kids" data-expiry="2026-05-16">
-          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FKids%2Fvbs%20training.jpg?alt=media&token=ec25f864-1b8b-4f43-96a2-339a0deea1ad');"></div>
-          <div class="ev-card-overlay"></div>
-          <div class="ev-card-body">
-            <div><span class="ev-cat-pill pill-kids">Kids</span></div>
-            <div class="ev-card-title">VBS Training</div>
-            <div class="ev-card-date">May 16th · 9-11AM | 11:30-1:30PM</div>
-            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/registrations/events/3387633" target="_blank">Register →</a>
-          </div>
+      <div class="hbc-ev__panel" data-cat="youth">
+        <div class="hbc-ev__frame-wrap">
+          <iframe loading="lazy"
+            src="https://hbcredmond.churchcenter.com/calendar?embed=true&view=gallery&category=314271"
+            title="Youth Events"></iframe>
         </div>
-
-         <div class="ev-card" data-cat="kids" data-expiry="2026-05-10">
-          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FKids%2FBaby%20Dedication.jpg?alt=media&token=449a5ec2-012e-48fb-a82b-9fa3db94d8ab');"></div>
-          <div class="ev-card-overlay"></div>
-          <div class="ev-card-body">
-            <div><span class="ev-cat-pill pill-kids">Kids</span></div>
-            <div class="ev-card-title">Baby Dedication</div>
-            <div class="ev-card-date">May 10th · Three Services</div>
-            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/calendar/event/221361980" target="_blank">Register →</a>
-          </div>
-        </div>
-        
- <div class="ev-card" data-cat="kids" data-expiry="2026-05-16">
-          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FKids%2FFirst%20Steps.webp?alt=media&token=d746e7b3-5fcc-4387-8b4a-3f75d30b08c2');"></div>
-          <div class="ev-card-overlay"></div>
-          <div class="ev-card-body">
-            <div><span class="ev-cat-pill pill-kids">Kids</span></div>
-            <div class="ev-card-title">First Steps</div>
-            <div class="ev-card-date">May 17th · 9:30AM-12:30PM</div>
-            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/registrations/events/3610210" target="_blank">Register →</a>
-          </div>
-        </div>
-        
-        
-        <div class="ev-card" data-cat="general" data-expiry="2026-04-26">
-          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FGeneral%2FJoin%20the%20family.webp?alt=media&token=1586109f-fd02-47c0-957c-e6d08e070a9f'); background-position: top;"></div>
-          <div class="ev-card-overlay"></div>
-          <div class="ev-card-body">
-            <div><span class="ev-cat-pill pill-general">General</span></div>
-            <div class="ev-card-title">Join the Family</div>
-            <div class="ev-card-date">Sunday, April 26, 12:15–2pm</div>
-            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/calendar/event/217095833s" target="_blank">Learn More →</a>
-          </div>
-        </div>
-
-        <div class="ev-card" data-cat="youth" data-expiry="2025-08-08">
-          <div class="ev-card-bg" style="background-image: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600&q=70');"></div>
-          <div class="ev-card-overlay"></div>
-          <div class="ev-card-body">
-            <div><span class="ev-cat-pill pill-youth">Youth</span></div>
-            <div class="ev-card-title">Forge Summer Camp</div>
-            <div class="ev-card-date">Aug 4–8 · Camp Harlow, Eugene OR</div>
-            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/registrations" target="_blank">Register →</a>
-          </div>
-        </div>
-
-        <div class="ev-card" data-cat="women" data-expiry="2026-04-19">
-          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FWomen%2FWomens%20Brunch.jpg?alt=media&token=fe67b266-2a47-4b4f-a89c-109a8e1a7d10');"></div>
-          <div class="ev-card-overlay"></div>
-          <div class="ev-card-body">
-            <div><span class="ev-cat-pill pill-women">Women</span></div>
-            <div class="ev-card-title">Women's Brunch</div>
-            <div class="ev-card-date">April 18 · Fireside Lobby</div>
-            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/calendar/event/209006977" target="_blank">Register →</a>
-          </div>
-        </div>
-
-        <div class="ev-card" data-cat="men" data-expiry="2026-05-23">
-          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FMen%2FMens%20Woodcutting%20ad.webp?alt=media&token=2a81d188-52a9-4a6f-ba2f-14c68ae8cef5');"></div>
-          <div class="ev-card-overlay"></div>
-          <div class="ev-card-body">
-            <div><span class="ev-cat-pill pill-men">Men</span></div>
-            <div class="ev-card-title">Men's Woodcutting</div>
-            <div class="ev-card-date">May 23rd · 8am</div>
-            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/calendar/event/221361466" target="_blank">More Info →</a>
-          </div>
-        </div>
-  
- <!-- ═══════════════════════════════════════════════ General -> Easter Choir -->
-      <!--   <div class="ev-card" data-cat="general" data-expiry="2026-03-15">
-          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FGeneral%2Feaster%20choir.jpg?alt=media&token=a1140cb1-0cce-486d-94c5-f5f913c38dc8"></div>
-          <div class="ev-card-body">
-            <div><span class="ev-cat-pill pill-general">General</span></div>
-            <div class="ev-card-title">Easter Choir</div>
-            <div class="ev-card-date">March 8th - 29th | 2:30pm - 4:00pm | Youth Room </div>
-            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/registrations/events/3489204" target="_blank">Sign Up →</a>
-          </div>
-        </div>-->
-       
-      <!-- ═══════════════════════════════════════════════ General -> Egg Stuffing Party -->  
-        
-       <!--   <div class="ev-card" data-cat="general" data-expiry="2026-03-21">
-          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FGeneral%2FEgg%20Stuffing.jpg?alt=media&token=6022219f-6930-4167-9ca5-08b209c8f5ae"></div>
-          <div class="ev-card-body">
-            <div><span class="ev-cat-pill pill-general">General</span></div>
-            <div class="ev-card-title" style="color:#34537a;">Egg Stuffing Party</div>
-            <div class="ev-card-date" style="color:#34537a;">Saturday, March 21, 9am–12pm </div>
-            <a class="ev-register-btn" href="https://hbcredmond.churchcenter.com/calendar/event/216600307" target="_blank" style="color:#34537a;">More Info →</a>
-          </div>
-        </div> --> 
-        
-          <!-- ═══════════════════════════════════════════════ General -> Good Friday -->  
-        
-        <div class="ev-card" data-cat="general" data-expiry="2026-04-04">
-          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FGeneral%2Fgood%20frid.webp?alt=media&token=95365c2d-a292-4c98-b1e4-5d52c0df5427"></div>
-          <div class="ev-card-body">
-            <div><span class="ev-cat-pill pill-general">General</span></div>
-            <div class="ev-card-title">Good Friday</div>
-            <div class="ev-card-date">Friday, April 3rd, 7pm</div>
-            <a class="ev-register-btn" href="https://www.hbcredmond.org/easter-2026" target="_blank">More Info →</a>
-          </div>
-        </div>
-        
-        <!-- ═══════════════════════════════════════════════ General -> Easter -->  
-        
-        <div class="ev-card" data-cat="general" data-expiry="2026-04-05">
-          <div class="ev-card-bg" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FGeneral%2Feaster%20(4).webp?alt=media&token=dd7c460e-ddd3-4011-a714-9e1c669b7f34"></div>
-          <div class="ev-card-body">
-            <div><span class="ev-cat-pill pill-general">General</span></div>
-            <div class="ev-card-title">Easter</div>
-            <div class="ev-card-date" style="color:white;">Sat 6pm | Sun 8am, 9:30am, and 11am</div>
-            <a class="ev-register-btn" href="https://www.hbcredmond.org/easter-2026" target="_blank">More Info →</a>
-          </div>
-        </div>
-
-        <div class="ev-empty" id="evEmpty">No events in this category right now.</div>
-
       </div>
 
-      <!-- Footer -->
-      <div class="ev-footer">
-        <p>Want to see everything happening at HBC?</p>
-        <a class="pill-btn"
-           href="https://hbcredmond.churchcenter.com/calendar?view=list"
-           target="_blank">View Full Church Calendar →</a>
+      <div class="hbc-ev__panel" data-cat="women">
+        <div class="hbc-ev__frame-wrap">
+          <iframe loading="lazy"
+            src="https://hbcredmond.churchcenter.com/calendar?embed=true&view=gallery&category=314268"
+            title="Women Events"></iframe>
+        </div>
+      </div>
+
+      <div class="hbc-ev__panel" data-cat="men">
+        <div class="hbc-ev__frame-wrap">
+          <iframe loading="lazy"
+            src="https://hbcredmond.churchcenter.com/calendar?embed=true&view=gallery&category=314272"
+            title="Men Events"></iframe>
+        </div>
+      </div>
+
+      <div class="hbc-ev__panel" data-cat="general">
+        <div class="hbc-ev__empty">
+          <strong>More events coming soon.</strong>
+          Check the full calendar for everything happening at HBC.
+        </div>
       </div>
 
     </div>
+
+    <div class="hbc-ev__footer">
+      <p>Want to see everything happening at HBC?</p>
+
+      <a class="hbc-ev__btn"
+         href="https://hbcredmond.churchcenter.com/calendar?view=list"
+         target="_blank">
+        View Full Church Calendar →
+      </a>
+    </div>
+
   </div>
+</div>
 
   <script>
   (function () {
