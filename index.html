@@ -1,420 +1,466 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HBC — What's New & Upcoming Events</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<!-- ═══════════════════════════════════════════════════════════
+     HBC — WHAT'S NEW + UPCOMING EVENTS
+     Nucleus-safe · Responsive fixed iframe version
+════════════════════════════════════════════════════════════ -->
 
-    html, body {
-      background: #0f0f0f;
-      color: #fff;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+<style>
+  /* ── SHARED RESET ─────────────────────────────────────────── */
+  .hbc-wn *,
+  .hbc-wn *::before,
+  .hbc-wn *::after,
+  .hbc-ev *,
+  .hbc-ev *::before,
+  .hbc-ev *::after {
+    box-sizing: border-box;
+  }
+
+  .hbc-wn,
+  .hbc-ev,
+  .hbc-divider {
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    width: 100%;
+  }
+
+  .hbc-wn {
+    background: #0f0f0f;
+    color: #ffffff;
+    padding: 88px 24px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .hbc-wn__inner,
+  .hbc-ev__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .hbc-wn__header,
+  .hbc-ev__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+
+  .hbc-wn__eyebrow,
+  .hbc-ev__eyebrow {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #c9a84c;
+    margin-bottom: 10px;
+  }
+
+  .hbc-wn__title,
+  .hbc-ev__title {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: clamp(2.2rem, 5vw, 3.8rem) !important;
+    font-weight: 900 !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.03em !important;
+    color: #ffffff !important;
+    margin: 0 0 10px !important;
+  }
+
+  .hbc-wn__sub,
+  .hbc-ev__sub {
+    margin: 0;
+    color: #bdbdbd;
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .hbc-wn__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .hbc-wn__card {
+    background: #1a1a1a;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+  }
+
+  .hbc-wn__card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  }
+
+  .hbc-wn__card-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .hbc-wn__card:hover .hbc-wn__card-img {
+    transform: scale(1.04);
+  }
+
+  .hbc-wn__card-body {
+    padding: 24px 24px 28px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .hbc-wn__tag {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+    width: fit-content;
+  }
+
+  .hbc-wn__tag--new      { background: #c9a84c; color: #000; }
+  .hbc-wn__tag--ministry { background: #00b1c4; color: #fff; }
+  .hbc-wn__tag--series   { background: #ffffff; color: #000; }
+  .hbc-wn__tag--pastor   { background: #56a544; color: #fff; }
+  .hbc-wn__tag--update   { background: #374151; color: #fff; }
+
+  .hbc-wn__card-title {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: clamp(1rem, 1.4vw, 1.15rem) !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.01em !important;
+    color: #ffffff !important;
+    margin: 0 0 10px !important;
+  }
+
+  .hbc-wn__card-desc {
+    font-size: 0.88rem;
+    color: #8a8a8a;
+    line-height: 1.65;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .hbc-wn__card-link {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.07);
+    width: fit-content;
+    transition: background 0.22s ease, transform 0.22s ease;
+  }
+
+  .hbc-wn__card-link:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: translateY(-1px);
+  }
+
+  .hbc-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .hbc-ev {
+    background: #111111;
+    color: #ffffff;
+    padding: 88px 24px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .hbc-ev__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #ffffff;
+    color: #111111;
+    text-decoration: none;
+    padding: 13px 24px;
+    border-radius: 999px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.22s ease, transform 0.22s ease;
+  }
+
+  .hbc-ev__btn:hover {
+    background: #e8e8e8;
+    transform: translateY(-2px);
+  }
+
+  .hbc-ev__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .hbc-ev__chip {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: background 0.22s ease, border-color 0.22s ease, color 0.22s ease;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .hbc-ev__chip:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .hbc-ev__chip.active {
+    background: #ffffff;
+    color: #111111;
+    border-color: #ffffff;
+  }
+
+  .hbc-ev__panels {
+    width: 100%;
+  }
+
+  .hbc-ev__panel {
+    display: none;
+    width: 100%;
+  }
+
+  .hbc-ev__panel.active {
+    display: block;
+    animation: hbcEvFade 0.28s ease;
+  }
+
+  @keyframes hbcEvFade {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hbc-ev__frame-wrap {
+    width: 100%;
+    border-radius: 20px;
+    background: #ffffff;
+    padding: 16px;
+    line-height: 0;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+  }
+
+  .hbc-ev__frame-wrap iframe {
+    width: 100%;
+    height: clamp(500px, 62vh, 650px);
+    border: 0;
+    display: block;
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .hbc-ev__empty {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 60px 40px;
+    text-align: center;
+    color: #9a9a9a;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .hbc-ev__empty strong {
+    display: block;
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .hbc-ev__footer {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .hbc-ev__footer p {
+    margin: 0;
+    color: #bdbdbd;
+    font-size: 0.98rem;
+  }
+
+  @media (max-width: 900px) {
+    .hbc-wn { padding: 72px 20px; }
+    .hbc-ev { padding: 72px 20px; }
+
+    .hbc-wn__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    /* ═══════════════════════════════════════════════════
-       SHARED UTILITIES
-    ═══════════════════════════════════════════════════ */
-    .section-wrap {
-      padding: 4rem 1.5rem 5rem;
-      max-width: 1100px;
-      margin: 0 auto;
+    .hbc-ev__frame-wrap iframe {
+      height: clamp(480px, 60vh, 600px);
+    }
+  }
+
+  @media (max-width: 680px) {
+    .hbc-wn { padding: 60px 16px; }
+    .hbc-ev { padding: 60px 16px; }
+
+    .hbc-wn__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
     }
 
-    .section-divider {
-      height: 1px;
-      background: rgba(255,255,255,0.06);
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .section-header h2 {
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin-bottom: 0.25rem;
-    }
-
-    .section-header p {
-      color: #888;
-      font-size: clamp(0.9rem, 1.5vw, 1rem);
-    }
-
-    .pill-btn {
-      display: inline-block;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #fff;
-      text-decoration: none;
-      padding: 0.65rem 1.5rem;
-      border-radius: 999px;
-      border: 1.5px solid rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.07);
-      transition: background 0.22s ease, transform 0.22s ease;
-      white-space: nowrap;
-      -webkit-backdrop-filter: blur(4px);
-      backdrop-filter: blur(4px);
-      cursor: pointer;
-    }
-    .pill-btn:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
-
-    @media (max-width: 560px) {
-      .section-header { flex-direction: column; align-items: flex-start; }
-    }
-
-    /* ═══════════════════════════════════════════════════
-       WHAT'S NEW SECTION
-    ═══════════════════════════════════════════════════ */
-    .wn-wrap { background: #0f0f0f; }
-
-    .wn-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-
-    @media (max-width: 900px) { .wn-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 768px) { .wn-grid { grid-template-columns: repeat(2, 1fr); gap: 0.85rem; } }
-    @media (max-width: 560px) { .wn-grid { grid-template-columns: 1fr; } }
-
-    /* News Card */
-    .wn-card {
-      background: #1a1a1a;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.05);
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-      display: flex;
+    .hbc-wn__header,
+    .hbc-ev__header {
       flex-direction: column;
-    }
-    .wn-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255,255,255,0.1);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 28px;
     }
 
-    .wn-card-image {
+    .hbc-ev__header .hbc-ev__btn {
       width: 100%;
-      aspect-ratio: 16/9;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      flex-shrink: 0;
-      overflow: hidden;
-      position: relative;
-    }
-    .wn-card:hover .wn-card-image { transform: scale(1.04); }
-
-    /* Placeholder when no image */
-    .wn-card-image.no-image {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #222;
-    }
-    .wn-card-image.no-image::after {
-      content: '';
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.06);
     }
 
-    .wn-card-body {
-      padding: 1.25rem 1.4rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
+    .hbc-ev__filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin-bottom: 24px;
     }
 
-    .wn-card-tag {
-      display: inline-block;
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.7rem;
-      border-radius: 999px;
-      margin-bottom: 0.65rem;
-      width: fit-content;
-    }
-    .tag-announcement { background: #c9a84c; color: #000; }
-    .tag-ministry     { background: #00b1c4; color: #fff; }
-    .tag-series       { background: #fff;    color: #000; }
-    .tag-pastor       { background: #56a544; color: #fff; }
-    .tag-update       { background: #374151; color: #fff; }
-
-    .wn-card-title {
-      font-size: clamp(1rem, 1.5vw, 1.2rem);
-      font-weight: 700;
-      line-height: 1.25;
-      letter-spacing: -0.01em;
-      margin-bottom: 0.55rem;
-      color: #fff;
-    }
-
-    .wn-card-desc {
-      font-size: 0.85rem;
-      color: #888;
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
-      flex: 1;
-    }
-
-    .wn-card-link {
-      display: inline-block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #fff;
-      text-decoration: none;
-      padding: 0.42rem 1.1rem;
-      border-radius: 999px;
-      border: 1.5px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.06);
-      transition: background 0.22s ease, transform 0.22s ease;
-      width: fit-content;
-      -webkit-backdrop-filter: blur(4px);
-      backdrop-filter: blur(4px);
-    }
-    .wn-card-link:hover { background: rgba(255,255,255,0.15); transform: translateY(-1px); }
-
-    /* ═══════════════════════════════════════════════════
-       EVENTS SECTION
-    ═══════════════════════════════════════════════════ */
-    .ev-wrap { background: #111111; }
-
-    .ev-filters {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-
-    .ev-filter {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.42rem 1.1rem;
-      border-radius: 999px;
-      border: 1.5px solid rgba(255,255,255,0.15);
-      background: transparent;
-      color: #777;
-      cursor: pointer;
-      transition: all 0.22s ease;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    }
-    .ev-filter:hover { border-color: rgba(255,255,255,0.35); color: #ccc; }
-    .ev-filter.active { background: #fff; color: #000; border-color: #fff; }
-
-    .ev-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-    }
-
-    @media (max-width: 900px) { .ev-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 768px) { .ev-grid { grid-template-columns: repeat(2, 1fr); gap: 0.85rem; } }
-    @media (max-width: 560px) {
-      .ev-grid { grid-template-columns: 1fr; }
-      .ev-filters {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 0.5rem;
-        scrollbar-width: none;
-      }
-      .ev-filters::-webkit-scrollbar { display: none; }
-      .ev-filter { flex-shrink: 0; }
-    }
-
-    .ev-card {
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      aspect-ratio: 4/3;
-      cursor: pointer;
-      transition: opacity 0.35s ease, transform 0.35s ease;
-    }
-    .ev-card.hidden { display: none; }
-
-    .ev-card-bg {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .ev-card:hover .ev-card-bg { transform: scale(1.06); }
-
-    .ev-card-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.05) 100%);
-      transition: background 0.35s ease;
-    }
-    .ev-card:hover .ev-card-overlay {
-      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0.1) 100%);
-    }
-
-    .ev-card-body {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 1.25rem 1.4rem 1.4rem;
-      z-index: 2;
-      transform: translateY(4px);
-      transition: transform 0.35s ease;
-    }
-    .ev-card:hover .ev-card-body { transform: translateY(0); }
-
-    .ev-cat-pill {
-      display: inline-block;
-      font-size: 0.6rem;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.7rem;
-      border-radius: 999px;
-      margin-bottom: 0.5rem;
-    }
-    .pill-kids    { background: #00b1c4; color: #fff; }
-    .pill-youth   { background: #fff;    color: #000; }
-    .pill-women   { background: #ed5a24; color: #fff; }
-    .pill-men     { background: #002d72; color: #fff; }
-    .pill-general { background: #c9a84c; color: #000; }
-
-    .ev-card-title {
-      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 0.3rem;
-      letter-spacing: -0.01em;
-    }
-
-    .ev-card-date {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 0.9rem;
-    }
-
-    .ev-register-btn {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #fff;
-      text-decoration: none;
-      padding: 0.42rem 1.1rem;
-      border-radius: 999px;
-      border: 1.5px solid rgba(255,255,255,0.28);
-      background: rgba(255,255,255,0.1);
-      transition: background 0.22s ease, transform 0.22s ease;
-      -webkit-backdrop-filter: blur(4px);
-      backdrop-filter: blur(4px);
-    }
-    .ev-register-btn:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
-
-    .ev-empty {
+    .hbc-ev__filters::-webkit-scrollbar {
       display: none;
-      text-align: center;
-      color: #555;
-      font-size: 0.9rem;
-      padding: 3rem 0;
-      grid-column: 1 / -1;
     }
 
-    .ev-footer { text-align: center; }
-    .ev-footer p { font-size: 0.82rem; color: #555; margin-bottom: 1rem; }
-  </style>
-</head>
-<body>
+    .hbc-ev__chip {
+      flex: 0 0 auto;
+    }
 
-  <!-- ═══════════════════════════════════════════════════
-       WHAT'S NEW SECTION
-       background: #0f0f0f (slightly lighter than events)
-  ═══════════════════════════════════════════════════ -->
-  <div class="wn-wrap">
-    <div class="section-wrap">
+    .hbc-ev__frame-wrap {
+      border-radius: 16px;
+      padding: 12px;
+      overflow: hidden;
+    }
 
-      <div class="section-header">
-        <div>
-          <h2>What's New</h2>
-          <p>Announcements, updates, and news from HBC.</p>
+    .hbc-ev__frame-wrap iframe {
+      height: 540px;
+      max-height: 68vh;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .hbc-ev__footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      margin-top: 36px;
+    }
+
+    .hbc-ev__footer .hbc-ev__btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .hbc-wn,
+    .hbc-ev {
+      padding-left: 14px;
+      padding-right: 14px;
+    }
+
+    .hbc-ev__frame-wrap {
+      padding: 10px;
+    }
+
+    .hbc-ev__frame-wrap iframe {
+      height: 500px;
+      max-height: 66vh;
+    }
+  }
+</style>
+
+<!-- ══ WHAT'S NEW ═══════════════════════════════════════════ -->
+<div class="hbc-wn">
+  <div class="hbc-wn__inner">
+
+    <div class="hbc-wn__header">
+      <div>
+        <span class="hbc-wn__eyebrow">From HBC</span>
+        <h2 class="hbc-wn__title">What's New</h2>
+        <p class="hbc-wn__sub">Announcements, updates, and news from HBC.</p>
+      </div>
+    </div>
+
+    <div class="hbc-wn__grid" id="hbcWnGrid">
+
+      <div class="hbc-wn__card" data-expiry="2099-12-31">
+        <div class="hbc-wn__card-img" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FWhats%20New%2FSPRING%20GROUPS%20(1).webp?alt=media&token=52d3577a-8983-4f37-a64f-0f3f6d666d88');"></div>
+        <div class="hbc-wn__card-body">
+          <span class="hbc-wn__tag hbc-wn__tag--new">New</span>
+          <h3 class="hbc-wn__card-title">Life Groups Starting This Spring</h3>
+          <p class="hbc-wn__card-desc">New small groups are forming at HBC this spring. Find a group that fits your season of life and start growing in community.</p>
+          <a href="https://www.hbcredmond.org/groups" class="hbc-wn__card-link" target="_blank">Find a Group →</a>
         </div>
       </div>
 
-      <!-- ═══════════════════════════════════════════════
-           NEWS CARDS
-           To add: copy any card block, update tag, title,
-           description, image URL, and link.
-           To remove: delete the entire <div class="wn-card"> block.
-           data-expiry="YYYY-MM-DD" — card hides the day after.
-           For permanent items use: data-expiry="2099-12-31"
-      ═══════════════════════════════════════════════ -->
-      <div class="wn-grid" id="wnGrid">
-
-    <!-- NEWS — Block Party Volunteers -->
-<div class="wn-card" data-expiry="2026-06-28">
-  <div class="wn-card-image" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2Fblock%20party%2FBlock%20Party%20-%20canvas%20edited%20website.webp?alt=media&token=a03684dc-8c44-4af3-ae55-588cea774a28');"></div>
-  <div class="wn-card-body">
-    <span class="wn-card-tag tag-announcement">Serve</span>
-    <div class="wn-card-title">Block Party Volunteers Needed</div>
-    <div class="wn-card-desc">
-      Help us welcome our community on June 28! Serve with setup, food, games, hospitality, or wherever help is needed.
-    </div>
-    <a href="https://hbcredmond.churchcenter.com/calendar/event/224153315" class="wn-card-link" target="_blank">
-      Sign Up to Serve →
-    </a>
-  </div>
-</div>
-
-        <!-- NEWS 2 — New Series -->
-        <div class="wn-card" data-expiry="2026-05-25">
-          <div class="wn-card-image" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FWhats%20New%2FHabakkuk%20Design%20(1).webp?alt=media&token=38f8cf09-c7e0-4ee7-888b-d51624c78e4f');"></div>
-          <div class="wn-card-body">
-            <span class="wn-card-tag tag-series">Series</span>
-            <div class="wn-card-title">Current Sermon Series: Habakkuk</div>
-            <div class="wn-card-desc">When life raises hard questions, God isn't silent. Join us this Sunday, May 17th as we dive into Habakkuk — an honest conversation about faith, doubt, and trusting God when He doesn't make sense.</div>
-            <a href="https://www.hbcredmond.org/sermons/playlists" class="wn-card-link" target="_blank">Sermon Library →</a>
-          </div>
+      <div class="hbc-wn__card" data-expiry="2026-05-25">
+        <div class="hbc-wn__card-img" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FWhats%20New%2FHabakkuk%20Design%20(1).webp?alt=media&token=38f8cf09-c7e0-4ee7-888b-d51624c78e4f');"></div>
+        <div class="hbc-wn__card-body">
+          <span class="hbc-wn__tag hbc-wn__tag--series">Series</span>
+          <h3 class="hbc-wn__card-title">Current Sermon Series: Habakkuk</h3>
+          <p class="hbc-wn__card-desc">When life raises hard questions, God isn't silent. Join us as we dive into Habakkuk — an honest conversation about faith, doubt, and trusting God when He doesn't make sense.</p>
+          <a href="https://www.hbcredmond.org/sermons/playlists" class="hbc-wn__card-link" target="_blank">Sermon Library →</a>
         </div>
-
-        <!-- NEWS 3 — Ministry Update -->
-        <div class="wn-card" data-expiry="2026-04-05">
-          <div class="wn-card-image" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FWhats%20New%2FBaptisms.webp?alt=media&token=0ff72073-a7bf-43a9-b448-b73a6e8b1623');"></div>
-          <div class="wn-card-body">
-            <span class="wn-card-tag tag-ministry">Easter</span>
-            <div class="wn-card-title">Easter Sunday Baptism</div>
-            <div class="wn-card-desc">Ready to take the next step in your faith? Be baptized this Easter! Choose the service that works best for you: Saturday – 6:00 PM | Sunday – 8:00, 9:30, & 11:00 AM
-</div>
-            <a href="https://hbcredmond.churchcenter.com/people/forms/896284" class="wn-card-link" target="_blank">I Want to be Baptized →</a>
-          </div>
-        </div>
-
       </div>
+
+      <div class="hbc-wn__card" data-expiry="2026-04-05">
+        <div class="hbc-wn__card-img" style="background-image: url('https://firebasestorage.googleapis.com/v0/b/hbc-website-8b832.firebasestorage.app/o/Events%2FWhats%20New%2FBaptisms.webp?alt=media&token=0ff72073-a7bf-43a9-b448-b73a6e8b1623');"></div>
+        <div class="hbc-wn__card-body">
+          <span class="hbc-wn__tag hbc-wn__tag--ministry">Easter</span>
+          <h3 class="hbc-wn__card-title">Easter Sunday Baptism</h3>
+          <p class="hbc-wn__card-desc">Ready to take the next step in your faith? Be baptized this Easter. Choose a service: Saturday 6:00 PM · Sunday 8:00, 9:30, & 11:00 AM.</p>
+          <a href="https://hbcredmond.churchcenter.com/people/forms/896284" class="hbc-wn__card-link" target="_blank">I Want to be Baptized →</a>
+        </div>
+      </div>
+
     </div>
   </div>
+</div>
 
-  <!-- Section divider -->
-  <div class="section-divider"></div>
+<div class="hbc-divider"></div>
 
-  <!-- ═══════════════════════════════════════════════════
-       UPCOMING EVENTS SECTION
-       background: #111111 (slightly different from above)
-  ═══════════════════════════════════════════════════ -->
-  <!-- ══ UPCOMING EVENTS ══════════════════════════════════════ -->
+<!-- ══ UPCOMING EVENTS ══════════════════════════════════════ -->
 <div class="hbc-ev">
   <div class="hbc-ev__inner">
 
@@ -496,97 +542,30 @@
   </div>
 </div>
 
-  <script>
+<script>
   (function () {
-
-    /* ── EXPIRY ─────────────────────────────────────────
-       Hides cards past their expiry date (Pacific Time)
-       Applies to both .wn-card and .ev-card elements
-    ──────────────────────────────────────────────────── */
-    function hideExpired() {
-      var now = new Date();
-      document.querySelectorAll('[data-expiry]').forEach(function (card) {
-        var expiry = new Date(card.dataset.expiry + 'T23:59:59-07:00');
-        if (now > expiry) {
-          card.style.display = 'none';
-          card.dataset.expired = 'true';
-        }
-      });
-    }
-
-    /* ── EVENT FILTER ───────────────────────────────────
-       Only filters .ev-card elements, ignores news cards
-    ──────────────────────────────────────────────────── */
-    window.evFilter = function (cat, btn) {
-      document.querySelectorAll('.ev-filter').forEach(function (b) {
-        b.classList.remove('active');
-      });
-      btn.classList.add('active');
-
-      var visible = 0;
-      document.querySelectorAll('.ev-card[data-cat]').forEach(function (card) {
-        if (card.dataset.expired === 'true') return;
-        if (cat === 'all' || card.dataset.cat === cat) {
-          card.style.display = '';
-          card.classList.remove('hidden');
-          visible++;
-        } else {
-          card.classList.add('hidden');
-        }
-      });
-
-      var empty = document.getElementById('evEmpty');
-      if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
-    };
-
-    /* ── INIT ───────────────────────────────────────────── */
-    hideExpired();
-
+    var now = new Date();
+    document.querySelectorAll('.hbc-wn__card[data-expiry]').forEach(function (card) {
+      var expiry = new Date(card.dataset.expiry + 'T23:59:59-07:00');
+      if (now > expiry) card.style.display = 'none';
+    });
   }());
-  </script>
 
-</body>
-</html>
+  function hbcEvFilter(cat, btn) {
+    document.querySelectorAll('.hbc-ev__chip').forEach(function (b) {
+      b.classList.remove('active');
+    });
 
-<!--
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  HOW TO ADD A NEWS ITEM (What's New section)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    btn.classList.add('active');
 
-<div class="wn-card" data-expiry="YYYY-MM-DD">
-  <div class="wn-card-image" style="background-image: url('YOUR_IMAGE_URL');"></div>
-  <div class="wn-card-body">
-    <span class="wn-card-tag TAG_CLASS">Label</span>
-    <div class="wn-card-title">Title Here</div>
-    <div class="wn-card-desc">Short description here.</div>
-    <a href="YOUR_LINK" class="wn-card-link" target="_blank">CTA Text →</a>
-  </div>
-</div>
+    document.querySelectorAll('.hbc-ev__panel').forEach(function (p) {
+      p.classList.remove('active');
+    });
 
-TAG options:
-  tag-announcement  (gold)
-  tag-ministry      (teal)
-  tag-series        (white)
-  tag-pastor        (green)
-  tag-update        (gray)
+    var target = document.querySelector('.hbc-ev__panel[data-cat="' + cat + '"]');
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  HOW TO ADD AN EVENT (Upcoming Events section)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-<div class="ev-card" data-cat="CATEGORY" data-expiry="YYYY-MM-DD">
-  <div class="ev-card-bg" style="background-image: url('YOUR_IMAGE_URL');"></div>
-  <div class="ev-card-overlay"></div>
-  <div class="ev-card-body">
-    <div><span class="ev-cat-pill pill-CATEGORY">Label</span></div>
-    <div class="ev-card-title">Event Title</div>
-    <div class="ev-card-date">Date · Time</div>
-    <a class="ev-register-btn" href="CHURCH_CENTER_LINK" target="_blank">Register →</a>
-  </div>
-</div>
-
-CATEGORY: kids | youth | women | men | general
-data-expiry: last day of event (YYYY-MM-DD)
-Recurring/permanent: data-expiry="2099-12-31"
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
--->
+    if (target) {
+      target.classList.add('active');
+    }
+  }
+</script>
